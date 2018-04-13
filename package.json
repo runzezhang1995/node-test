@@ -5,11 +5,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "wds": "webpack-dev-server"
+    "wds": "webpack-dev-server",
+    "start": "nodemon --inspect --watch src/server --exec babel-node --presets env src/server"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
