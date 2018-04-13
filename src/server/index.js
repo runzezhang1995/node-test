@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import './rtsp/rtsp';
 import express from 'express';
 import path from 'path';
 
