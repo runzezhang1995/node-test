@@ -46,9 +46,26 @@ function ocrImageWithDistance(finishHandler) {
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        finishHandler(body);     
+        finishHandler(processOCRBody(body));     
     });
 
+}
+
+function processOCRBody(bodyString) {
+    const body = JSON.parse(bodyString);
+    let resultString = '';
+    console.log(body.regions);
+
+    body.regions.forEach((region) => {
+        region.lines.forEach((line) => {
+            line.words.forEach((word) => {    
+                resultString += word.text + ' ';                        
+            }, this);
+        }, this);
+    }, this);
+
+    return resultString;
+    
 }
 
 

@@ -37,7 +37,16 @@ app.post('/',(req,res) => {
 
         ocrImageWithDistance((body) => {
             console.log(body);
-            res.send(body);
+
+
+
+
+
+
+            res.json({
+                success:true,
+                string:body
+            });
         });
 
     } catch (error) {
@@ -48,6 +57,7 @@ app.post('/',(req,res) => {
     // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
 
 });
+
 
 const server = app.listen(8080,() => {
     const host = server.address().address;
