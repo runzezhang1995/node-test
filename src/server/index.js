@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import Axios from 'Axios';
+import fs from 'fs';
 
 const app = express();
 
@@ -17,7 +18,13 @@ app.use(bodyParser.urlencoded({
 
 
 app.get('/', async (req, res) => {
-    res.send('<b>hello</b>');
+    fs.readFile('./public/test2.jpg','binary', (err, file) => {
+        if (err) throw err; // Fail if the file can't be read.
+        res.writeHead(200, {'Content-Type': 'image/jpeg'});
+
+        res.write(file, 'binary'); // Send the file data to the browser.
+        res.end();
+    });
 });
 
 
@@ -28,11 +35,9 @@ app.post('/',(req,res) => {
         const videoPath = req.body.videoPath;
         // testProcessVideo(videoPath, () => {
 
-        ocrImageWithDistance((data) => {
-            res.json({
-                success: true,
-                data:data
-            });
+        ocrImageWithDistance((body) => {
+            console.log(body);
+            res.send(body);
         });
 
     } catch (error) {
