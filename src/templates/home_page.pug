@@ -1,0 +1,12 @@
+extends layout
+block extra-scripts
+    script(src = "http://localhost:8080/homePage.bundle.js")
+
+block content
+    #alertPlaceHolder
+    form#searchCardForm(action =`./`,method="POST", style="margin: auto 30px")
+        .row
+            button.btn.btn-primary.btn-block#cardSearchSubmit(type="submit" style="margin-top:20px") Search
+    b#resultField() result
+    hr
+
