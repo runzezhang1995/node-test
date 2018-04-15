@@ -8,47 +8,77 @@ import fs from 'fs';
 
 const app = express();
 
-
 // app.use(express.bodyParser());
-app.use(bodyParser.json());
+
+app.set('view engine', 'pug');
+app.set('views', 'src/templates');
+
+app.use(express.static('build/frontend'));
+app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
 }));
 
+app.use(bodyParser.json());
+
+global.jsHost = 'http://localhost:8080';
 
 
 app.get('/', async (req, res) => {
-    fs.readFile('./public/test2.jpg','binary', (err, file) => {
-        if (err) throw err; // Fail if the file can't be read.
-        res.writeHead(200, {'Content-Type': 'image/jpeg'});
-
-        res.write(file, 'binary'); // Send the file data to the browser.
-        res.end();
+    console.log('start rendering home page');
+    res.render('home_page', {
+        js_host: global.jsHost,
+        title: 'Title',
     });
 });
 
 
 app.post('/',(req,res) => {
     console.log('at get image');
-
     try {
-        const videoPath = req.body.videoPath;
+        // const videoPath = req.body.videoPath;
         // testProcessVideo(videoPath, () => {
-
+        //     console.log('success');
+        //     res.json({
+        //         success:true
+        //     });
+        // });
         ocrImageWithDistance((body) => {
             console.log(body);
-
-
-
-
-
-
             res.json({
-                success:true,
+                success:true,   
                 string:body
             });
         });
+    } catch (error) {
+        res.json({
+            success: false
+        });
+    }
+    // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
 
+});
+
+
+
+app.post('/image',(req,res) => {
+    console.log('at get image');
+    try {
+        const videoPath = req.body.videoPath;
+        testProcessVideo(videoPath, () => {
+            console.log('success');
+            res.json({
+                success:true
+            });
+        });
+        // ocrImageWithDistance((body) => {
+        //     console.log(body);
+        //     res.json({
+        //         success:true,   
+        //         string:body
+        //     });
+        // });
     } catch (error) {
         res.json({
             success: false

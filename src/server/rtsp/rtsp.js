@@ -7,11 +7,13 @@ import request from 'request';
 // const $ = require('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
 
 function testProcessVideo(videoPath, finishHandler) {
+    console.log(videoPath);   
+    let counter = 0; 
     const command = ffmpeg(videoPath)
     .on('start', (commandLine) => {
         console.log('Spanwed FFmpeg command :' + commandLine);
     }).on('end', () => {
-        finishHandler();
+        finishHandler();            
         console.log('finished');
     }).addOptions([
         '-f image2',
@@ -19,8 +21,7 @@ function testProcessVideo(videoPath, finishHandler) {
         '-vframes 1',
         '-s 640*480'
     ])
-    .save('./public/output.png')
-    .run();
+    .save('./public/output.png');
 
     // ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg
 }
@@ -29,7 +30,7 @@ function testProcessVideo(videoPath, finishHandler) {
 function ocrImageWithDistance(finishHandler) {
    
     const data = {
-        'image': fs.createReadStream('./public/test2.jpg')
+        'image': fs.createReadStream('./public/output.png')
     };	
     const url = 'https://australiaeast.api.cognitive.microsoft.com/vision/v1.0/ocr';
 
