@@ -25,17 +25,8 @@ module.exports = {
                 },
             },
             {
-                test: /\.styl$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'stylus-loader',
-                ],
-            },
-            {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
                     'css-loader',
                 ],
             },
@@ -58,19 +49,14 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
         }),
-        new webpack.DefinePlugin({
-            'process.env.NODE.ENV':"development"
-            }),
-        new webpack.HotModuleReplacementPlugin()
     ],
     devtool: 'source-map',
+    node: {
+        popper: 'empty'
+    },
     devServer: {
         compress: true,
-        historyApiFallback:true,
-        hot:true,
-        inline:true,
-        progress:true,
         contentBase: path.join(__dirname, 'public'),
-        port: 9003,
+        port: 9000,
     },
 };
