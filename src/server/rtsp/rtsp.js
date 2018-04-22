@@ -22,7 +22,6 @@ function testProcessVideo(videoPath, finishHandler) {
         '-s 640*480'
     ])
     .save('./public/output.png');
-
     // ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg
 }
 

@@ -37,28 +37,39 @@ app.get('/', async (req, res) => {
 app.post('/',(req,res) => {
     console.log('at get image');
     try {
-        // const videoPath = req.body.videoPath;
-        // testProcessVideo(videoPath, () => {
-        //     console.log('success');
-        //     res.json({
-        //         success:true
-        //     });
-        // });
-        ocrImageWithDistance((body) => {
-            console.log(body);
-            res.json({
-                success:true,   
-                string:body
-            });
+        const videoPath = req.body.videoPath;
+        if(req.body.videoPath) {        
+        } else {   
+            throw new Error('no video path');
+        }
+        
+        testProcessVideo(videoPath, (result) => {
+            if(result.success) {
+                console.log('success get image');
+                ocrImageWithDistance((body) => {
+                    console.log('success get string');
+                    console.log(body);
+                    res.json({
+                        success:true,   
+                        string:body
+                    });
+                });
+            } else {
+                throw new Error('fail to obtain image');
+            }
         });
+        
     } catch (error) {
+        console.log('catch error');
         res.json({
-            success: false
+            success: false,
+            error:error.message,
         });
     }
     // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
 
 });
+
 
 
 
