@@ -19,9 +19,9 @@ function recognizeImageFromServer (){
     $('#refreshButton').text('Obtaining...');
     console.log('start to call api...');
     
-    let timeInterval =  parseInt($('#updateIntervalTF').val(), 10) * 1000;  
+    let timeInterval =  parseInt($('#updateIntervalTF').val(), 10) * 1000 * 3600;  
     if(!timeInterval) {
-        timeInterval = 5000;
+        timeInterval = 1000 * 3600;
     }
 
     $.ajax({
