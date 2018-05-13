@@ -5,8 +5,13 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import Axios from 'Axios';
 import fs from 'fs';
+import errorHandler from './errorHandler';
+
 
 const app = express();
+let cameras = [];
+
+
 
 // app.use(express.bodyParser());
 
@@ -30,6 +35,7 @@ app.get('/', async (req, res) => {
     res.render('home_page', {
         js_host: global.jsHost,
         title: 'Title',
+        cameras,
     });
 });
 
@@ -55,7 +61,11 @@ app.post('/',(req,res) => {
                     });
                 });
             } else {
-                throw new Error('fail to obtain image');
+                console.log('ffmpeg fail');
+                res.json({
+                    success:false,
+                    error:result.error.message
+                })
             }
         });
         
@@ -70,6 +80,47 @@ app.post('/',(req,res) => {
 
 });
 
+
+
+app.post('/camera',(req,res) => {
+    console.log('At camera');
+    const id = req.body.id;
+    const ip = req.body.ip;
+    
+    if(!id || !ip) {
+        throw new Error('no valid ip address or id');
+    }
+
+    cameras.forEach(camera => {
+        if(camera.id === id) {
+            throw new Error('id is already exist');
+        }
+    });
+    cameras.push({
+        id,
+        ip,
+    });
+    res.json({
+        success:true,
+        cameras,
+    });
+    // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
+});
+
+app.get('/camera',(req,res) => {
+    res.json({
+        success:true,
+        cameras,
+    });
+    // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
+});
+
+app.delete('/camera',(req,res) => {
+    cameras = [];
+    res.json({
+        success:true
+    });
+})
 
 
 
@@ -98,6 +149,9 @@ app.post('/image',(req,res) => {
     // const commandLine = 'ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg';
 
 });
+
+
+app.use(errorHandler);
 
 
 const server = app.listen(8080,() => {

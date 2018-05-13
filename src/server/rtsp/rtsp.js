@@ -9,19 +9,32 @@ import request from 'request';
 function testProcessVideo(videoPath, finishHandler) {
     console.log(videoPath);   
     let counter = 0; 
+    
     const command = ffmpeg(videoPath)
     .on('start', (commandLine) => {
         console.log('Spanwed FFmpeg command :' + commandLine);
     }).on('end', () => {
-        finishHandler();            
+        finishHandler({
+            success:true
+        });            
         console.log('finished');
-    }).addOptions([
+    })
+    .on('error', function(err, stdout, stderr) {
+        console.log('Cannot process video: ' + err.message);
+        finishHandler({
+            success:false,
+            error:err
+        });
+      })
+      .addOptions([
         '-f image2',
         '-ss 00:00:01',
         '-vframes 1',
         '-s 640*480'
     ])
     .save('./public/output.png');
+   
+    
     // ffmpeg -i "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" -f image2 -ss 1000 -vframes 1 -s 220*220 ./public/a.jpeg
 }
 

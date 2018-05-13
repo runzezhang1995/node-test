@@ -5,13 +5,33 @@ block extra-scripts
 block content
     #bodyDiv(style="background-image:url('/bg.jpg');height:100%;width:100%;min-height:1080px;min-width:1000px;background-size:100% 100%;background-position:center 0;background-repeat:no-repeat;padding:0px;")
         #titleDiv(style="height:300px;width:100%;text-align:center")
+            
             b#titleLabel(style="font-size:100px;margin-top:100px;-webkit-text-stroke-color:Grey;-webkit-text-stroke-width:1px;color:#fff;text-shadow: Grey 5px 2px 3px;position:relative;top:30%") Clairvoyance
-            .row#deviceIDRow(style="margin-top:100px")
+            input#cameras(type='hidden', value=cameras)
+           
+            .row#dropDownRow(style="margin-top:100px")
                 .col-lg-3
                 .col-lg-3(style="height:75px")
                     b#deviceIDLabel(style="font-size:35px;-webkit-text-stroke-color:Grey;-webkit-text-stroke-width:2px;color:#fff;") Device ID
                 .col-lg-3(style="height:75px") 
-                    input#deviceIDTF(type="text",style="height:45px;background-color:#DDD;font-size:30px;border-radius:10px", disabled="disabled", value="  H001") 
+                    .dropdown(style='padding-left: 10px; display: inline-block; vertical-align: bottom;width:100%')
+                        button.btn.btn-default.dropdown-toggle#device-selection(type='button', data-toggle='dropdown',style='width:100%') ---Select Device---
+                            span.caret
+                        ul.dropdown-menu#dropDownMenu
+                .col-lg-3
+            .row#updateInterval(style="margin-top:20px")
+                .col-lg-3
+                .col-lg-3(style="height:75px")
+                    b#updateIntervalLabel(style="font-size:35px;-webkit-text-stroke-color:Grey;-webkit-text-stroke-width:2px;color:#fff;") UPdate Interval
+                .col-lg-3(style="height:75px") 
+                    input#updateIntervalTF(type="text",style="height:45px;background-color:#DDD;font-size:30px;border-radius:10px", value="", placeholder="by hours")    
+                .col-lg-3
+            .row#deviceIPRow(style="margin-top:20px")
+                .col-lg-3
+                .col-lg-3(style="height:75px")
+                    b#deviceIPLabel(style="font-size:35px;-webkit-text-stroke-color:Grey;-webkit-text-stroke-width:2px;color:#fff;") Device IP
+                .col-lg-3(style="height:75px") 
+                    input#deviceIPTF(type="text",style="height:45px;background-color:#DDD;font-size:30px;border-radius:10px", disabled="disabled", value="")    
                 .col-lg-3
             .row#timeStampRow(style="margin-top:20px")
                 .col-lg-3
