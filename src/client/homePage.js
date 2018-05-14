@@ -32,16 +32,16 @@ function recognizeImageFromServer (){
         },
         success: (response) => {
             if(!keepTry) {
+                console.log('canceled by user');
                 return;
             }
             
             $('#refreshButton').text('Refresh');
-            
+            console.log(response);
+
             if (response.success) {
-                console.log(response); 
                 $('#real-timeReadingTF').val(response.string);   
-                $('#timeStampTF').val(moment().format('YYYY-MM-DD HH:mm:ss'));
-                
+                $('#timeStampTF').val(moment().format('YYYY-MM-DD HH:mm:ss'));       
             } else {
                 console.log('error');
                 console.log(response);
