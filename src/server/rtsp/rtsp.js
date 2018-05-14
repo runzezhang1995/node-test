@@ -59,6 +59,8 @@ function ocrImageWithDistance(finishHandler) {
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
+
+        console.log(body);
         finishHandler(processOCRBody(body));     
     });
 
@@ -77,6 +79,7 @@ function processOCRBody(bodyString) {
             }, this);
         }, this);
     }
+
     return resultString;
 }
 
