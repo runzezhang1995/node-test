@@ -68,17 +68,16 @@ function processOCRBody(bodyString) {
     const body = JSON.parse(bodyString);
     let resultString = '';
     console.log(body.regions);
-
-    body.regions.forEach((region) => {
-        region.lines.forEach((line) => {
-            line.words.forEach((word) => {    
-                resultString += word.text + ' ';                        
+    if(body.regions) {
+        body.regions.forEach((region) => {
+            region.lines.forEach((line) => {
+                line.words.forEach((word) => {    
+                    resultString += word.text + ' ';                        
+                }, this);
             }, this);
         }, this);
-    }, this);
-
+    }
     return resultString;
-    
 }
 
 
